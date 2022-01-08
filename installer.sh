@@ -43,6 +43,10 @@ function install_bootloader() {
 	grub-mkconfig -o /boot/grub/grub.cfg
 }
 
+set -e
+main "$@"
+set +e
+
 #check_efi_support
 format_partitions
 mount_filesystem
