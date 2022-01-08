@@ -17,7 +17,7 @@ function format_partitions() {
 
 function mount_filesystem() {
 	mount /dev/sdb3 /mnt
-	mkdir /mnt/boot
+	mkdir -p /mnt/boot/efi
 	mount /dev/sdb1 /mnt/boot
 	swapon /dev/sdb2
 }
