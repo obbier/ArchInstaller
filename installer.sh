@@ -12,14 +12,14 @@
 function format_partitions() {
 	mkfs.ext4 /dev/nvme0n1p3
 	mkswap /dev/nvme0n1p2
-	mkfs.fat -F 32 /dev/nvme01np1
+	mkfs.fat -F 32 /dev/nvme0n1p1
 }
 
 function mount_filesystem() {
-	mount /dev/nvme01np3 /mnt
+	mount /dev/nvme0n1p3 /mnt
 	mkdir /mnt/boot
-	mount /dev/nvme01np1 /mnt/boot
-	swapon /dev/nvme01np2
+	mount /dev/nvme0n1p1 /mnt/boot
+	swapon /dev/nvme0n1p2
 }
 
 function install_packages() {
