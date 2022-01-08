@@ -1,13 +1,13 @@
 #!/bin/bash
 
-. ./helpers.sh 
+#. ./helpers.sh 
 
-function check_efi_support() {
-	echo "Checking for EFI support..."
-	dir_exists "/sys/firmware/efi" \
-		&& echo "EFI Vars exists. Continuing..." \
-		|| (echo "EFI support not detected. Aborting."; exit 0)
-}
+#function check_efi_support() {
+#	echo "Checking for EFI support..."
+#	dir_exists "/sys/firmware/efi" \
+#		&& echo "EFI Vars exists. Continuing..." \
+#		|| (echo "EFI support not detected. Aborting."; exit 0)
+#}
 
 function format_partitions() {
 	mkfs.ext4 /dev/sdb3
@@ -43,7 +43,7 @@ function install_bootloader() {
 	grub-mkconfig -o /boot/grub/grub.cfg
 }
 
-check_efi_support
+#check_efi_support
 format_partitions
 mount_filesystem
 install_packages
