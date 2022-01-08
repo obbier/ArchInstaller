@@ -48,3 +48,4 @@ mount_filesystem
 install_packages
 configure_system
 install_bootloader
+arch-chroot /mnt passwd
