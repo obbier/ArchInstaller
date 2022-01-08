@@ -34,12 +34,17 @@ function configure_system() {
 	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
 	arch-chroot /mnt echo "tower" > /etc/hostname
 	arch-chroot /mnt mkinitcpio -P
-	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd
+	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo nvidia bspwm sxhkd git
 }
 
 function install_bootloader() {
 	arch-chroot /mnt grub-install --removable --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
 	arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
+}
+
+function basic_setup() {
+	arch-chroot /mnt systemctl enable dhcpcd
+	
 }
 
 #check_efi_support
@@ -48,4 +53,4 @@ mount_filesystem
 install_packages
 configure_system
 install_bootloader
-arch-chroot /mnt passwd
+arch-chroot /mnt 
