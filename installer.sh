@@ -35,7 +35,7 @@ function configure_system() {
 	echo "LANG=en_US.UTF-8" > /etc/locale.conf
 	echo "tower" > /etc/hostname
 	mkinitcpio -P
-	pacman -S intel-ucode efibootmgr
+	pacman -S intel-ucode efibootmgr grub
 }
 
 function install_bootloader() {
