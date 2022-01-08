@@ -10,16 +10,16 @@
 #}
 
 function format_partitions() {
-	mkfs.ext4 /dev/sdb3
-	mkswap /dev/sdb2
-	mkfs.fat -F 32 /dev/sdb1
+	mkfs.ext4 /dev/nvme0n1p3
+	mkswap /dev/nvme0n1p2
+	mkfs.fat -F 32 /dev/nvme01np1
 }
 
 function mount_filesystem() {
-	mount /dev/sdb3 /mnt
+	mount /dev/nvme01np3 /mnt
 	mkdir /mnt/boot
-	mount /dev/sdb1 /mnt/boot
-	swapon /dev/sdb2
+	mount /dev/nvme01np1 /mnt/boot
+	swapon /dev/nvme01np2
 }
 
 function install_packages() {
