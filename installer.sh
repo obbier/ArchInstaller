@@ -34,7 +34,7 @@ function configure_system() {
 	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
 	arch-chroot /mnt echo "tower" > /etc/hostname
 	arch-chroot /mnt mkinitcpio -P
-	arch-chroot /mnt pacman -S intel-ucode efibootmgr grub
+	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub
 }
 
 function install_bootloader() {
