@@ -17,6 +17,7 @@ function format_partitions() {
 
 function mount_filesystem() {
 	mount /dev/sdb3 /mnt
+	mkdir /mnt/boot
 	mount /dev/sdb1 /mnt/boot
 	swapon /dev/sdb2
 }
@@ -35,7 +36,6 @@ function configure_system() {
 	echo "tower" > /etc/hostname
 	mkinitcpio -P
 	pacman -S intel-ucode
-	passwd
 }
 
 function install_bootloader() {
