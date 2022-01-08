@@ -28,19 +28,18 @@ function install_packages() {
 
 function configure_system() {
 	genfstab -U /mnt >> /mnt/etc/fstab
-	arch-chroot /mnt
-	ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-	hwclock --systohc
-	locale-gen
-	echo "LANG=en_US.UTF-8" > /etc/locale.conf
-	echo "tower" > /etc/hostname
-	mkinitcpio -P
-	pacman -S intel-ucode efibootmgr grub
+	arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+	arch-chroot /mnt hwclock --systohc
+	arch-chroot /mnt locale-gen
+	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
+	arch-chroot /mnt echo "tower" > /etc/hostname
+	arch-chroot /mnt mkinitcpio -P
+	arch-chroot /mnt pacman -S intel-ucode efibootmgr grub
 }
 
 function install_bootloader() {
-	grub-install --removable --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
-	grub-mkconfig -o /boot/grub/grub.cfg
+	arch-chroot /mnt grub-install --removable --target=x86_64-efi --efi-directory=/boot --bootloader-id=GRUB
+	arch-chroot /mnt grub-mkconfig -o /boot/grub/grub.cfg
 }
 
 set -e
