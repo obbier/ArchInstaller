@@ -53,4 +53,4 @@ mount_filesystem
 install_packages
 configure_system
 install_bootloader
-arch-chroot /mnt 
+echo "Change root passwd before reboot. Edit sudoers for wheel access"
