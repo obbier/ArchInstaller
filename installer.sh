@@ -31,10 +31,12 @@ function configure_system() {
 	arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
 	arch-chroot /mnt hwclock --systohc
 	arch-chroot /mnt locale-gen
+	arch-chroot /mnt touch /etc/locale.conf
+	arch-chroot /mnt touch /etc/hostname
 	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
 	arch-chroot /mnt echo "tower" > /etc/hostname
 	arch-chroot /mnt mkinitcpio -P
-	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo nvidia bspwm sxhkd alacritty git noto-fonts xorg-xrandr xwallpaper neovim github-cli
+	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo
 }
 
 function install_bootloader() {
@@ -44,7 +46,7 @@ function install_bootloader() {
 
 function basic_setup() {
 	arch-chroot /mnt systemctl enable dhcpcd
-	
+	arch-chroot /mnt pacman -S --noconfirm nvidia bspwm sxhkd alacritty git noto-fonts xorg-xrandr xwallpaper neovim github-cli
 }
 
 #check_efi_support
@@ -53,4 +55,5 @@ mount_filesystem
 install_packages
 configure_system
 install_bootloader
+basic_setup
 echo "Change root passwd before reboot. Edit sudoers for wheel access"
