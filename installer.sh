@@ -35,6 +35,7 @@ function configure_system() {
 	arch-chroot /mnt touch /etc/hostname
 	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
 	arch-chroot /mnt echo "tower" > /etc/hostname
+	arch-chroot /mnt echo -e "--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30" > /etc/xdg/reflector/reflector.conf
 	arch-chroot /mnt mkinitcpio -P
 	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo
 }
@@ -46,7 +47,7 @@ function install_bootloader() {
 
 function basic_setup() {
 	arch-chroot /mnt systemctl enable dhcpcd
-	arch-chroot /mnt pacman -S --noconfirm nvidia alsa-utils bspwm sxhkd alacritty git noto-fonts xorg-xrandr xwallpaper neovim github-cli
+	arch-chroot /mnt pacman -S --noconfirm nvidia alsa-utils bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper neovim github-cli
 }
 
 #check_efi_support
