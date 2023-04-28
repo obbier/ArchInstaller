@@ -27,17 +27,17 @@ function install_packages() {
 }
 
 function configure_system() {
-	genfstab -U /mnt >> /mnt/etc/fstab
-	arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
-	arch-chroot /mnt hwclock --systohc
-	arch-chroot /mnt locale-gen
-	arch-chroot /mnt touch /etc/locale.conf
-	arch-chroot /mnt touch /etc/hostname
-	arch-chroot /mnt echo "LANG=en_US.UTF-8" > /etc/locale.conf
-	arch-chroot /mnt echo "tower" > /etc/hostname
-	arch-chroot /mnt echo -e "--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30" > /etc/xdg/reflector/reflector.conf
-	arch-chroot /mnt mkinitcpio -P
-	arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo
+    genfstab -U /mnt >> /mnt/etc/fstab
+    arch-chroot /mnt ln -sf /usr/share/zoneinfo/America/Los_Angeles /etc/localtime
+    arch-chroot /mnt hwclock --systohc
+    arch-chroot /mnt locale-gen
+    arch-chroot /mnt touch /etc/locale.conf
+    arch-chroot /mnt touch /etc/hostname
+    arch-chroot /mnt bash -c 'echo "LANG=en_US.UTF-8" > /etc/locale.conf'
+    arch-chroot /mnt bash -c 'echo "tower" > /etc/hostname'
+    arch-chroot /mnt bash -c 'echo -e "--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30" > /etc/xdg/reflector/reflector.conf'
+    arch-chroot /mnt mkinitcpio -P
+    arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo
 }
 
 function install_bootloader() {
