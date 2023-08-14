@@ -46,8 +46,8 @@ function install_bootloader() {
 }
 
 function basic_setup() {
+	arch-chroot /mnt pacman -S --noconfirm nvidia alsa-utils bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper neovim github-cli xorg-server
 	arch-chroot /mnt systemctl enable dhcpcd reflector
-	arch-chroot /mnt pacman -S --noconfirm nvidia alsa-utils bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper neovim github-cli
 }
 
 #check_efi_support
