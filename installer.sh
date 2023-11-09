@@ -8,6 +8,31 @@
 #		&& echo "EFI Vars exists. Continuing..." \
 #		|| (echo "EFI support not detected. Aborting."; exit 0)
 #}
+function automated_partitioning() {
+    local device="/dev/nvme0n1"
+    local ram_size=$(grep MemTotal /proc/meminfo | awk '{print $2}') # RAM size in KB
+    local swap_size=$((ram_size / 1024 / 1024 + 1)) # Convert KB to GB and add a little extra
+
+    # Clear the partition table
+    wipefs -a "$device"
+
+    # Create partitions
+    echo "label: gpt" | sfdisk "$device" # Initialize partition table as GPT
+    echo "size=512M, type=uefi" | sfdisk "$device"  # Create EFI partition
+    echo "size=32G, type=swap" | sfdisk "$device"  # Create swap partition
+    echo "type=linux" | sfdisk "$device"  # Allocate the rest to root partition
+
+    # Format the partitions
+    mkfs.fat -F 32 "${device}p1"  # Format EFI partition
+    mkswap "${device}p2"          # Format swap partition
+    mkfs.ext4 "${device}p3"       # Format root partition
+
+    # Mount the partitions
+    mount "${device}p3" /mnt
+    mkdir /mnt/boot
+    mount "${device}p1" /mnt/boot
+    swapon "${device}p2"
+}
 
 function format_partitions() {
 	mkfs.ext4 /dev/nvme0n1p3
