@@ -50,6 +50,18 @@ function basic_setup() {
 	arch-chroot /mnt systemctl enable dhcpcd reflector
 }
 
+function setup_nvidia() {
+    echo "Setting up Nvidia..."
+    # Ensure Nvidia packages are installed
+    arch-chroot /mnt pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
+    # Remove 'kms' hook from mkinitcpio.conf
+    arch-chroot /mnt sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf
+    # Regenerate the initramfs
+    arch-chroot /mnt mkinitcpio -P
+    # Install and run nvidia-xconfig
+    arch-chroot /mnt nvidia-xconfig
+}
+
 #check_efi_support
 format_partitions
 mount_filesystem
@@ -57,5 +69,6 @@ install_packages
 configure_system
 install_bootloader
 basic_setup
+setup_nvidia
 echo "arch-chroot /mnt and change root passwd before reboot. uncomment line at bottom of visudo command for wheel access."
 echo "run useradd -m -g wheel obbie the run passwd obbie to give yourself a password."
