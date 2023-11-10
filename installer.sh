@@ -66,6 +66,7 @@ function configure_system() {
     arch-chroot /mnt bash -c 'echo "LANG=en_US.UTF-8" > /etc/locale.conf'
     arch-chroot /mnt bash -c 'echo "tower" > /etc/hostname'
     arch-chroot /mnt bash -c 'echo -e "--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30" > /etc/xdg/reflector/reflector.conf'
+    arch-chroot /mnt bash -c "sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf"
     arch-chroot /mnt mkinitcpio -P
     arch-chroot /mnt pacman -S --noconfirm intel-ucode efibootmgr grub dhcpcd sudo
 }
@@ -76,7 +77,7 @@ function install_bootloader() {
 }
 
 function basic_setup() {
-	arch-chroot /mnt pacman -S --noconfirm nvidia openssh pipewire wireplumber xorg-xinit bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper vim neovim github-cli xorg-server
+	arch-chroot /mnt pacman -S --noconfirm nvidia nvidia-utils nvidia-settings openssh pipewire wireplumber xorg-xinit bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper vim neovim github-cli xorg-server
 	arch-chroot /mnt systemctl enable dhcpcd reflector
 }
 
