@@ -65,7 +65,7 @@ function configure_system() {
     arch-chroot /mnt bash -c 'sed -i "s/#ParallelDownloads = 5/ParallelDownloads = 10/" /etc/pacman.conf'
     arch-chroot /mnt bash -c 'echo "LANG=en_US.UTF-8" > /etc/locale.conf'
     arch-chroot /mnt bash -c 'echo "tower" > /etc/hostname'
-    arch-chroot /mnt bash -c 'echo -e "--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30" > /etc/xdg/reflector/reflector.conf'
+    arch-chroot /mnt bash -c "mkdir -p /etc/xdg/reflector && echo -e '--save /etc/pacman.d/mirrorlist\n-c us\n--sort rate\n--score 30' > /etc/xdg/reflector/reflector.conf"
     arch-chroot /mnt bash -c "sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf"
     arch-chroot /mnt mkinitcpio -P
     arch-chroot /mnt pacman -S --noconfirm amd-ucode efibootmgr grub dhcpcd sudo
