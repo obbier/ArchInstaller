@@ -9,12 +9,7 @@
 
 
 function setup_nvidia() {
-    echo "Setting up Nvidia..."
-    pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
-    # Remove 'kms' hook from mkinitcpio.conf
-    sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf
-    mkinitcpio -P
-    nvidia-xconfig
+    sudo nvidia-xconfig
 }
 
 setup_nvidia
