@@ -77,7 +77,7 @@ function install_bootloader() {
 }
 
 function basic_setup() {
-	arch-chroot /mnt pacman -S --noconfirm nvidia nvidia-utils nvidia-settings openssh pipewire wireplumber xorg-xinit bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper vim neovim github-cli xorg-server
+	arch-chroot /mnt pacman -S --noconfirm nvidia nvidia-utils nvidia-settings openssh pipewire wireplumber xorg-xinit bspwm sxhkd alacritty reflector rsync git noto-fonts xorg-xrandr xwallpaper jq vim neovim github-cli xorg-server
 	arch-chroot /mnt systemctl enable dhcpcd reflector
 }
 
