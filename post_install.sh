@@ -7,6 +7,18 @@
 # alias config='/usr/bin/git --git-dir=/home/obbie/.dotfiles --work-tree=/home/obbie'
 # run bash to update bashrc
 
+
+function setup_nvidia() {
+    echo "Setting up Nvidia..."
+    pacman -S --noconfirm nvidia nvidia-utils nvidia-settings
+    # Remove 'kms' hook from mkinitcpio.conf
+    sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf
+    mkinitcpio -P
+    nvidia-xconfig
+}
+
+setup_nvidia
+
 # Check if repository owner and name are provided
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <owner> <repo>"
