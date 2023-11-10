@@ -13,6 +13,7 @@ function automated_partitioning() {
     local ram_size=$(grep MemTotal /proc/meminfo | awk '{print $2}') # RAM size in KB
     local swap_size=$((ram_size / 1024 / 1024 + 1)) # Convert KB to GB and add a little extra
 
+    umount /dev/nvme0n1*
     # Clear the partition table
     wipefs -a "$device"
 
@@ -92,8 +93,7 @@ function setup_nvidia() {
 }
 
 #check_efi_support
-format_partitions
-mount_filesystem
+automated_partitioning
 install_packages
 configure_system
 install_bootloader
