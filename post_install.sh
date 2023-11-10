@@ -43,6 +43,9 @@ else
     ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f "$SSH_KEY_PATH" -N ""
 fi
 
+eval "$(ssh-agent -s)"
+ssh-add ~/.ssh/github_rsa
+
 # Read and encode the public key
 PUB_KEY=$(cat "$SSH_KEY_PATH.pub" | base64 | tr -d '\n')
 
