@@ -16,11 +16,13 @@ function automated_partitioning() {
     # Clear the partition table
     wipefs -a "$device"
 
-    # Create partitions
-    echo "label: gpt" | sfdisk "$device" # Initialize partition table as GPT
-    echo "size=512M, type=uefi" | sfdisk "$device"  # Create EFI partition
-    echo "size=32G, type=swap" | sfdisk "$device"  # Create swap partition
-    echo "type=linux" | sfdisk "$device"  # Allocate the rest to root partition
+    # Create partitions in a single transaction
+    {
+        echo "label: gpt"
+        echo "size=512M, type=uefi"  # Create EFI partition
+        echo "size=32G, type=swap"   # Create swap partition
+        echo "type=linux"            # Allocate the rest to root partition
+    } | sfdisk "$device"
 
     # Format the partitions
     mkfs.fat -F 32 "${device}p1"  # Format EFI partition
