@@ -14,6 +14,14 @@ function setup_nvidia() {
 
 setup_nvidia
 
+#!/bin/bash
+
+# Check if GitHub token is set
+if [ -z "$GH_TOKEN" ]; then
+    echo "GitHub token not set. Please export GH_TOKEN with your GitHub token."
+    exit 1
+fi
+
 # Check if repository owner and name are provided
 if [ "$#" -ne 2 ]; then
     echo "Usage: $0 <owner> <repo>"
@@ -24,12 +32,31 @@ fi
 REPO_OWNER=$1
 REPO_NAME=$2
 
-API_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME"
-CLONE_URL=$(curl -s -H "Authorization: token $GH_TOKEN" "$API_URL" | grep -w "clone_url" | cut -d '"' -f 4)
+# SSH key path
+SSH_KEY_PATH="$HOME/.ssh/github_rsa"
 
-# Check if the clone URL is empty
-if [ -z "$CLONE_URL" ]; then
-    echo "Failed to retrieve repository URL. Please check your access token and repository details."
+# Check if SSH key already exists
+if [ -f "$SSH_KEY_PATH" ]; then
+    echo "SSH key already exists at $SSH_KEY_PATH. Aborting key generation."
+else
+    # Generate SSH key
+    ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f "$SSH_KEY_PATH" -N ""
+fi
+
+# Read and encode the public key
+PUB_KEY=$(cat "$SSH_KEY_PATH.pub" | base64 | tr -d '\n')
+
+# Upload the public key to GitHub
+API_URL="https://api.github.com/user/keys"
+UPLOAD_KEY_RES=$(curl -s -H "Authorization: token $GH_TOKEN" -X POST -d "{\"title\":\"Your Key Description\", \"key\":\"$PUB_KEY\"}" "$API_URL")
+
+# Get the repository SSH clone URL
+REPO_API_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME"
+SSH_URL=$(curl -s -H "Authorization: token $GH_TOKEN" "$REPO_API_URL" | jq -r '.ssh_url')
+
+# Check if the SSH URL is empty
+if [ -z "$SSH_URL" ]; then
+    echo "Failed to retrieve repository SSH URL. Please check your access token and repository details."
     exit 1
 fi
 
