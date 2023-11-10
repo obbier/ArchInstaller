@@ -98,6 +98,6 @@ install_packages
 configure_system
 install_bootloader
 basic_setup
-setup_nvidia
+#setup_nvidia
 echo "arch-chroot /mnt and change root passwd before reboot. uncomment line at bottom of visudo command for wheel access."
 echo "run useradd -m -g wheel obbie the run passwd obbie to give yourself a password."
