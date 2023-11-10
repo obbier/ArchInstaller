@@ -42,12 +42,12 @@ else
     # Generate SSH key
     ssh-keygen -t rsa -b 4096 -C "your_email@example.com" -f "$SSH_KEY_PATH" -N ""
 fi
-
+chmod 600 ~/.ssh/github_rsa
 eval "$(ssh-agent -s)"
 ssh-add ~/.ssh/github_rsa
 
 # Read and encode the public key
-PUB_KEY=$(cat "$SSH_KEY_PATH.pub" | base64 | tr -d '\n')
+PUB_KEY=$(cat "$SSH_KEY_PATH.pub")
 
 # Upload the public key to GitHub
 API_URL="https://api.github.com/user/keys"
