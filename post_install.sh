@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # Usage:set GH_TOKEN env variable before running. 
+# use 'source' to run instead of ./
 # https://github.com/settings/tokens
 # ./clone_dotfiles.sh owner_name repo_name
 # add the following to .bashrc
