@@ -69,6 +69,8 @@ function configure_system() {
     arch-chroot /mnt bash -c "sed -i '/HOOKS/s/kms //' /etc/mkinitcpio.conf"
     arch-chroot /mnt mkinitcpio -P
     arch-chroot /mnt pacman -S --noconfirm amd-ucode efibootmgr grub dhcpcd sudo
+    arch-chroot /mnt bash -c "echo -e '[Unit]\nDescription=Run reflector weekly to update mirrorlist\n\n[Timer]\nOnCalendar=weekly\nPersistent=true\n\n[Install]\nWantedBy=timers.target' > /etc/systemd/system/reflector.timer"
+    arch-chroot /mnt systemctl enable reflector.timer
 }
 
 function install_bootloader() {
