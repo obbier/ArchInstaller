@@ -52,7 +52,7 @@ function mount_filesystem() {
 
 function install_packages() {
 	sed -i 's/#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
-	pacstrap /mnt base linux linux-firmware
+	pacstrap /mnt base linux linux-firmware linux-headers
 }
 
 function configure_system() {
